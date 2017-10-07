@@ -17,8 +17,4 @@ headers = {'Accept': '*/*',
            'Origin': 'http://210.31.32.126',
            'Referer': 'http://210.31.32.126/',
            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.91 Safari/537.36'}
-# s = requests.Session()
-# s.headers = postheader
-# r = s.post(url, data=postdata, verify=False)
-# print(r.status_code)
 requests.post(url, headers=headers, data=postdata)
