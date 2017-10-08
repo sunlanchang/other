@@ -1,3 +1,12 @@
+#ubuntu实现自动启动此脚本
+#root权限修改/etc/rc.local文件在exit 0上一行加上 python3 xiaoyuanwang.py
+#即可实现开机启动此脚本
+
+#python 2.7 python 3.5均可用
+#脚本外部依赖requests库，请在运行脚本前pip3或者pip安装requests
+
+#python 2.7运行时务必加上下面一行代码，指定编码为utf8，python3可以忽略。
+# coding: utf-8
 import requests
 
 
