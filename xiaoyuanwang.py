@@ -53,4 +53,8 @@ while True:
     if is_connect_edu():  # 是否连接上校园网
         if not is_connect_web():  # 是否连接上外网
             login()
+            if requests.get('http://www.baidu.com').status_code==200:
+                print('Already connected Internet')
+            else:
+                print('Not connected Internet')
         break
