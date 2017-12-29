@@ -9,52 +9,45 @@
 # coding: utf-8
 import requests
 
-
 url = 'http://210.31.32.126/cgi-bin/do_login'
+url1 = 'http://210.31.32.126/cgi-bin/keeplive'
+url2 = 'http://210.31.32.126/user_info.php?uid='
+url3 = 'http://210.31.32.126//cgi-bin/do_logout'
 
 
 def login():
-    postdata = {'username': '你的校园网账号',
-                'password': '{TEXT}你的密码',
+    postdata = {'username': '5120150752',
+                'password': '{TEXT}bipt184755',
                 'drop': '0',
                 'type': '1',
                 'n': '100'}
-    headers = {'Accept': '*/*',
-               'Accept-Encoding': 'gzip, deflate',
-               'Accept-Language': 'zh-CN,zh;q=0.8',
-               'Connection': 'keep-alive',
-               'Content-Length': '65',
-               'Content-Type': 'application/x-www-form-urlencoded',
-               'Cookie': 'PHPSESSID=a70fr8pfvhhtt329qvb21p7ka6',
-               'Host': '210.31.32.126',
-               'Origin': 'http://210.31.32.126',
-               'Referer': 'http://210.31.32.126/',
-               'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.91 Safari/537.36'}
-    requests.post(url, data=postdata)
+    a = requests.post(url, data=postdata).content
+    print "******Internet connected!"  # ,uid is",('%s' %a)
+    c = url2 + a
+    # print c
+    d = requests.get(c).content
+    # print d
+    e = str('10.10')
+    f = d.find(e)
+    # print f
 
 
-def is_connect_edu():
-    status_code = requests.get(url).status_code
-    if status_code == 200:
-        return True
-    else:
-        return False
+def usage():
+    b = requests.get(url1).content
+    # print "usageinfo is"
+    b = (b.split(','))
+    online_time = int(b[0]) / 60
+    traffic_out = int(b[2])
+    traffic_in = int(b[1])
+    balance = int(b[3])
+    balance_left = float(balance - traffic_in - traffic_out) / 1000000000
+    usage_this_session = float(traffic_in + traffic_out) / 1000000
+    # print online_time,traffic_out,traffic_in,balance
+    print ('***Online for %d minutes.' % online_time)
+    print ('***Data used this session %.2f M' % usage_this_session)
+    print ('***Balance left %.3f G' % balance_left)
 
 
-def is_connect_web():
-    r = requests.get("http://www.baidu.com").text
-    if r.find('210.31.32.126') != -1:
-        return False
-    else:
-        return True
+login()
+usage()
 
-
-while True:
-    if is_connect_edu():  # 是否连接上校园网
-        if not is_connect_web():  # 是否连接上外网
-            login()
-            if requests.get('http://www.baidu.com').status_code==200:
-                print('Already connected Internet')
-            else:
-                print('Not connected Internet')
-        break
